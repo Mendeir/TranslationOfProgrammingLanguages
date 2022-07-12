@@ -2,6 +2,7 @@
 #define _LEXER_H_
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -10,6 +11,11 @@ class Lexer
     private:
     string fileName;
     string code;
+    bool isWithinComment;
+    bool isEndOfLine;
+    bool isBlockComment;
+    vector <string> keywords;
+    vector <string> operators;
 
     public:
     //Constructor and Destructor
@@ -17,8 +23,14 @@ class Lexer
 
     //Methods
     void retrieveFile();
-    void processFile();
     void displayCode();
+    bool isKeyword(string givenToken);
+    bool isVariable(string givenToken);
+    bool isComment(string givenToken);
+    bool isOperator(string givenToken);
+    bool isNumericLiteral(string givenToken);
+    void fillOperators();
+    void fillKeywords();
 
 
     //Getter and Setter
