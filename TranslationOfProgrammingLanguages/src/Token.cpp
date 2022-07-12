@@ -1,9 +1,9 @@
 #include "Token.h"
 
-Token::Token()
+Token::Token(string type, string value)
 {
-	type = "none";
-	value = "none";
+	this->type = type;
+	this->value = value;
 }
 
 string Token::getType()
