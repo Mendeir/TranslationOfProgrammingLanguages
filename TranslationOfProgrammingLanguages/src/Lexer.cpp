@@ -34,7 +34,7 @@ void Lexer::retrieveFile()
     string fileLine = "";
 
     while (getline(codeFile, fileLine)) {
-        code += fileLine + " endl" + '\n';
+        code += fileLine + '\n';
         //code += fileLine + '\n';
     }
 
@@ -95,7 +95,7 @@ bool Lexer::isComment(string givenToken)
             isBlockComment = true;
         }
         
-        if (givenToken[counter] == 'e' && givenToken[counter + 1] == 'n')
+        if (givenToken[counter] == ';')
             isEndOfLine = true;
     }
 

@@ -1,6 +1,7 @@
 #ifndef _LEXER_H_
 #define _LEXER_H_
 
+#include "Token.h"
 #include <string>
 #include <vector>
 
@@ -16,6 +17,7 @@ class Lexer
     bool isBlockComment;
     vector <string> keywords;
     vector <string> operators;
+    vector <Token> tokens;
 
     public:
     //Constructor and Destructor
