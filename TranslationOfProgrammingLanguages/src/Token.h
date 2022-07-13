@@ -12,7 +12,7 @@ class Token
 	string value;
 
 	public:
-	Token();
+	Token(string type, string value);
 	string getType();
 	string getValue();
 
