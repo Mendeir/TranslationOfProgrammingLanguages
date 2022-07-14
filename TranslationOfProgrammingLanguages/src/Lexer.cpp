@@ -34,8 +34,13 @@ void Lexer::retrieveFile()
     string fileLine = "";
 
     while (getline(codeFile, fileLine)) {
-        code += fileLine + '\n';
+        
+        if(fileLine != " " && fileLine != "" && fileLine != "\n"){
+            code += fileLine;
+            LineCodes.push_back(code);
+        }
         //code += fileLine + '\n';
+        code = "";
     }
 
 
@@ -44,6 +49,15 @@ void Lexer::retrieveFile()
 void Lexer::displayCode()
 {
     cout << code << '\n';
+}
+
+int Lexer::getCodeLength(){
+
+    return code.length();
+}
+
+vector<string> Lexer::getLineCodes(){
+    return LineCodes;
 }
 
 bool Lexer::isKeyword(string givenToken)
@@ -129,6 +143,7 @@ void Lexer::fillOperators()
     operators.push_back("=");
     operators.push_back("(");
     operators.push_back(")");
+    operators.push_back(";");
 }
 
 void Lexer::fillKeywords()
@@ -137,3 +152,4 @@ void Lexer::fillKeywords()
     keywords.push_back("input");
     keywords.push_back("output");
 }
+

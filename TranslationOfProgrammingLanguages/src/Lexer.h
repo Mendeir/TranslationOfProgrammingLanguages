@@ -18,6 +18,7 @@ class Lexer
     vector <string> keywords;
     vector <string> operators;
     vector <Token> tokens;
+    vector <string> LineCodes;
 
     public:
     //Constructor and Destructor
@@ -36,7 +37,8 @@ class Lexer
 
 
     //Getter and Setter
-
+    int getCodeLength();
+    vector<string> getLineCodes();
 };
 
 #endif 
