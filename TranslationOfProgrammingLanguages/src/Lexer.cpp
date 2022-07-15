@@ -51,11 +51,6 @@ void Lexer::displayCode()
     cout << code << '\n';
 }
 
-int Lexer::getCodeLength(){
-
-    return code.length();
-}
-
 vector<string> Lexer::getLineCodes(){
     return LineCodes;
 }
@@ -140,6 +135,14 @@ bool Lexer::isTerminator(string givenToken){
     if(givenToken == TERMNINATOR)
         return true;
     
+    return false;
+}
+
+bool Lexer::isNewLine(string givenToken){
+    const string NEWLINE = "\\n";
+    if(givenToken == NEWLINE)
+        return true;
+
     return false;
 }
 void Lexer::fillOperators()

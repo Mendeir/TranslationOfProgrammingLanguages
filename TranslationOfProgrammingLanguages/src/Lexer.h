@@ -33,12 +33,12 @@ class Lexer
     bool isOperator(string givenToken);
     bool isNumericLiteral(string givenToken);
     bool isTerminator(string givenToken);
+    bool isNewLine(string givenToken);
     void fillOperators();
     void fillKeywords();
 
 
     //Getter and Setter
-    int getCodeLength();
     vector<string> getLineCodes();
 };
 
