@@ -2,7 +2,7 @@ var x = 10;
 
 x = 11a;
 x=12;
-
+aa
 output(x);;;asd
-input(x);
-output (x);
+input(x); asd
+output (x);xxxxx
