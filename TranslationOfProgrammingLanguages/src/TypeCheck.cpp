@@ -11,6 +11,7 @@ using namespace std;
 // - use lexer functions to determine type
 const char NEWLINE = 10;
 const char TAB = 9;
+
 vector<Token> makeTokens(){
     Lexer lexer("code.txt");
     
@@ -33,7 +34,7 @@ vector<Token> makeTokens(){
                 subString += lines[i];
             }else{
                 op += lines[i];
-                if(lexer.isOperator(op)){
+                if(lexer.isOperator(op) || lexer.isTerminator(op)){
                     if(subString != ""){
                         splitStrings.push_back(subString);
                     }
@@ -51,17 +52,34 @@ vector<Token> makeTokens(){
     }
     
     //remove later used for testing
-    cout << "VALUES __________________";
     for(auto i: splitStrings){
-        cout << i << endl;
+        if(lexer.isKeyword(i)){
+            tokens.push_back(Token(i, "KEYWORD"));
+        }else if(lexer.isNumericLiteral(i)){
+            tokens.push_back(Token(i, "NUMERIC"));
+        }else if(lexer.isVariable(i)){
+            tokens.push_back(Token(i,"VARIABLE"));
+        }else if(lexer.isOperator(i)){
+            tokens.push_back(Token(i,"OPERATOR"));
+        }else if(lexer.isComment(i)){
+            tokens.push_back(Token(i,"COMMENT"));
+        }else if(lexer.isTerminator(i)){
+            tokens.push_back(Token(i,"TERMINATOR"));
+        }else{
+            tokens.push_back(Token(i,"UNDEFINED"));
+        }
     }
+
     return tokens;
 }
 
 
 //For testing only REMOVE LATER
 int main(){
-    makeTokens();
+    vector<Token> t = makeTokens();
+    for(auto token: t){
+        cout << token.getType() << " " << token.getValue() << endl;
+    }
 }
 
 

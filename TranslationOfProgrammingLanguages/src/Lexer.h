@@ -32,6 +32,7 @@ class Lexer
     bool isComment(string givenToken);
     bool isOperator(string givenToken);
     bool isNumericLiteral(string givenToken);
+    bool isTerminator(string givenToken);
     void fillOperators();
     void fillKeywords();
 
