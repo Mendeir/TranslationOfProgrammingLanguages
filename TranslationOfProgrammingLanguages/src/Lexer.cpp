@@ -9,6 +9,7 @@ using namespace std;
 //***************************
 Lexer::Lexer(string fileName)
 {
+    code = "\\t;";
     isWithinComment = false;
     isEndOfLine = false;
     isBlockComment = false;
@@ -47,6 +48,7 @@ void Lexer::displayCode()
 }
 
 
+
 void Lexer::tokenize()
 {
     int codeLength = code.length();
@@ -68,12 +70,8 @@ void Lexer::tokenize()
             ++counter;
         }
 
-        
+
     }
-
-vector<string> Lexer::getLineCodes(){
-    return LineCodes;
-
 }
 
 bool Lexer::isKeyword(string givenToken)
@@ -166,4 +164,18 @@ void Lexer::fillKeywords()
     keywords.push_back("var");
     keywords.push_back("input");
     keywords.push_back("output");
+}
+
+void Lexer::addToken(string givenType, string givenValue)
+{
+    tokens.push_back(Token(givenType, givenValue));
+}
+
+void Lexer::displayTokens()
+{
+    for (Token token : tokens)
+    {
+        cout << "Type: " << token.getType() << '\n';
+        cout << "Value: " << token.getValue() << '\n';
+    }
 }

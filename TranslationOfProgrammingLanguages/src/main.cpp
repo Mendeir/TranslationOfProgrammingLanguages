@@ -11,18 +11,13 @@ int main()
 	Token test2("type", "value");
 	cout << test2.getType() << '\n';
 	test.retrieveFile();
+	test.tokenize();
+	test.addToken("Malupet", "Ako");
+	test.displayTokens();
 	//test.displayCode();
 
 	//cout << test.isComment("test") << '\n';
 	//cout << test.isComment("test ") << '\n';
 
-	Token test2("type", "value");
-	cout << test2.getType() << '\n';
-	test.retrieveFile();
-	test.displayCode();
-	//test.displayCode();
-
-	cout << test.isComment("test") << '\n';
-	cout << test.isComment("test ") << '\n';
 	return 0;
 }
