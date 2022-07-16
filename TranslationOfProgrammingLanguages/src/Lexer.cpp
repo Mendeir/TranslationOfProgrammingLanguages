@@ -51,20 +51,36 @@ void Lexer::tokenize()
 {
     int codeLength = code.length();
     int counter = 0;
-    string substring = "";
+    string subString = "";
 
     while (counter < codeLength)
     {
         string type;
 
-        if (isComment(substring))
+        if (isComment(subString))
         {
-            addToken("COMMENT", substring);
+            addToken("COMMENT", subString);
+            subString = "";
             ++counter;
             continue;
         }
         
-        substring += code[counter];
+        if (isWithinComment) 
+        {
+            subString += code[counter];
+            ++counter;
+            continue;
+        }
+
+        if (isKeyword(subString))
+        {
+            addToken("KEYWORD", subString);
+            subString = "";
+            ++counter;
+            continue;
+        }
+        
+        subString += code[counter];
         ++counter;
 
 
