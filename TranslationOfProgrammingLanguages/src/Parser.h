@@ -23,10 +23,10 @@ public:
 
     //Methods
     void checkCurrent();
-    string checkNext(Token);
+    string nextType(int);
     void match();
     void nextToken();
     void breakParse();
-    void syntaxAnalyzer(Token token);
+    void syntaxAnalyzer(Token token, int index);
 };
 #endif

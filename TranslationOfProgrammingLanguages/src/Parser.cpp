@@ -13,11 +13,11 @@ using namespace std;
 
 Parser::Parser(vector <Token> tokens)
 {
-	cout << "Parsing Tokens..." << endl;
+	cout << "\nParsing Tokens...\n\n";
 	this->code = tokens;
-	for (Token token : tokens) {
-		cout << token.getType() << " " << token.getValue() << endl;
-		syntaxAnalyzer(token);
+	for (int i = 0; i < tokens.size(); i++) {
+		cout << "Type: " << tokens[i].getType() << " | Value: \"" << tokens[i].getValue() << "\"\n";//for debugging
+		syntaxAnalyzer(tokens[i], i);
 	}
 }
 
@@ -26,10 +26,10 @@ Parser::Parser(vector <Token> tokens)
 //***************************
 //*		   METHODS          *
 //***************************
-void Parser::syntaxAnalyzer(Token token)
+void Parser::syntaxAnalyzer(Token token, int index)
 {
-	if (token.getType()=="KEYWORD") {// first token in the line
-		if (token.getValue()=="var") {
+	if (token.getType() == "KEYWORD") {// first token in the line
+		if (token.getValue() == "var") {
 
 		}
 		else if (token.getValue() == "input") {
@@ -38,9 +38,20 @@ void Parser::syntaxAnalyzer(Token token)
 		else if (token.getValue() == "output") {
 
 		}
-		else if (checkNext(token) == "IDENTIFIER" || checkNext(token) == "INT") {
+		else if (nextType(index) == "IDENTIFIER" || nextType(index) == "INT") {
 			 
 		}
+	}
+	else if (token.getType() == "IDENTIFIER") {
+		if (nextType(index) == "ASSIGN_OP") {
+			variables[token.getValue()] = NULL;
+		}
+		else {
+			breakParse();
+		}
+	}
+	else {
+
 	}
 }
 
@@ -48,13 +59,9 @@ void Parser::checkCurrent()
 {
 }
 
-string Parser::checkNext(Token token)
+string Parser::nextType(int current_index)
 {
-	for (Token current : code) {
-
-	}
-
-	return "ERROR";
+	return code.at(static_cast<std::vector<Token, std::allocator<Token>>::size_type>(current_index) + 1).getType();
 }
 
 void Parser::match()
@@ -68,5 +75,6 @@ void Parser::nextToken()
 void Parser::breakParse()
 {
 	cout << "ERROR: ";
+	//error_message("IDENTIFIER or INT expected after" + token.getValue());
 	exit(0);
 }
