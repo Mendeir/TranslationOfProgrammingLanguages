@@ -63,10 +63,9 @@ void Lexer::tokenize()
             ++counter;
             continue;
         }
-        else {
-            substring += code[counter];
-            ++counter;
-        }
+        
+        substring += code[counter];
+        ++counter;
 
 
     }
