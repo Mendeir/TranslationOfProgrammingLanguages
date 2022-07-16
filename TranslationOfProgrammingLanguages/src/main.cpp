@@ -1,5 +1,6 @@
 #include "Lexer.h"
 #include "Token.h"
+#include "Parser.h"
 #include <iostream>
 
 using namespace std;
@@ -18,6 +19,13 @@ int main()
 
 	//cout << test.isComment("test") << '\n';
 	//cout << test.isComment("test ") << '\n';
+
+	vector <Token> code;
+	Token token01("KEYWORD", "var");
+	Token token02("INT", "69");
+
+	code.push_back(token01);
+	Parser parser01(code);
 
 	return 0;
 }
