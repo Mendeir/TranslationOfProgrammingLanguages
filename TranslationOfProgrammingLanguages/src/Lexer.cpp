@@ -163,14 +163,6 @@ bool Lexer::isTerminator(string givenToken){
     
     return false;
 }
-
-bool Lexer::isNewLine(string givenToken){
-    const string NEWLINE = "\\n";
-    if(givenToken == NEWLINE)
-        return true;
-
-    return false;
-}
 void Lexer::fillOperators()
 {
     operators.push_back("+");

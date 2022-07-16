@@ -9,7 +9,7 @@ using namespace std;
 //Checklist
 // - separate string contents into words
 // - use lexer functions to determine type
-const char NEWLINE = '\n';
+const char NEWLINE = 10;
 const char TAB = 9;
 
 vector<Token> makeTokens(){
@@ -48,7 +48,7 @@ vector<Token> makeTokens(){
                 
             } 
         }
-        splitStrings.push_back("\\n");
+
     }
     
     //remove later used for testing
@@ -65,8 +65,6 @@ vector<Token> makeTokens(){
             tokens.push_back(Token(i,"COMMENT"));
         }else if(lexer.isTerminator(i)){
             tokens.push_back(Token(i,"TERMINATOR"));
-        }else if(lexer.isNewLine(i)){
-            tokens.push_back(Token(i,"NEWLINE"));
         }else{
             tokens.push_back(Token(i,"UNDEFINED"));
         }
