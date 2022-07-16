@@ -1,7 +1,5 @@
 #include "Lexer.h"
-#include "Lexer.cpp"
 #include "Token.h"
-#include "Token.cpp"
 #include <iostream>
 
 using namespace std;
@@ -26,6 +24,5 @@ int main()
 
 	cout << test.isComment("test") << '\n';
 	cout << test.isComment("test ") << '\n';
-
 	return 0;
 }

@@ -34,13 +34,8 @@ void Lexer::retrieveFile()
     string fileLine = "";
 
     while (getline(codeFile, fileLine)) {
-        
-        if(fileLine != " " && fileLine != "" && fileLine != "\n"){
-            code += fileLine;
-            LineCodes.push_back(code);
-        }
+        code += fileLine + '\n';
         //code += fileLine + '\n';
-        code = "";
     }
 
 
@@ -164,7 +159,6 @@ void Lexer::fillOperators()
     operators.push_back("=");
     operators.push_back("(");
     operators.push_back(")");
-    operators.push_back(";");
 }
 
 void Lexer::fillKeywords()

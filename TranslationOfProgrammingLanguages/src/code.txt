@@ -1,8 +1,0 @@
-var x = 10;
-
-x = 11a;
-x=12;
-
-output(x);;;asd
-input(x);
-output (x);
