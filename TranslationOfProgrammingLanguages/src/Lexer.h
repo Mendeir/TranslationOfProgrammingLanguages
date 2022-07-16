@@ -18,6 +18,7 @@ class Lexer
     vector <string> keywords;
     vector <string> operators;
     vector <Token> tokens;
+    vector <string> LineCodes;
 
     public:
     //Constructor and Destructor
@@ -31,12 +32,14 @@ class Lexer
     bool isComment(string givenToken);
     bool isOperator(string givenToken);
     bool isNumericLiteral(string givenToken);
+    bool isTerminator(string givenToken);
+    bool isNewLine(string givenToken);
     void fillOperators();
     void fillKeywords();
 
 
     //Getter and Setter
-
+    vector<string> getLineCodes();
 };
 
 #endif 
