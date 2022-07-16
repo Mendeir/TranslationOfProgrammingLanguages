@@ -15,7 +15,6 @@ Lexer::Lexer(string fileName)
     this->fileName = fileName;
     fillOperators();
     fillKeywords();
-    code = "//t;";
 }
 
 //***************************
@@ -131,7 +130,7 @@ bool Lexer::isComment(string givenToken)
             isBlockComment = true;
         }
         
-        if (givenToken[counter + 1] == ';')
+        if (givenToken[counter] == ';')
             isEndOfLine = true;
     }
 
@@ -188,18 +187,4 @@ void Lexer::fillKeywords()
     keywords.push_back("var");
     keywords.push_back("input");
     keywords.push_back("output");
-}
-
-void Lexer::addToken(string givenType, string givenValue)
-{
-    tokens.push_back(Token(givenType, givenValue));
-}
-
-void Lexer::displayTokens()
-{
-    for (Token token : tokens)
-    {
-        cout << "Type: " << token.getType() << '\n';
-        cout << "Value: " << token.getValue() << '\n';
-    }
 }
