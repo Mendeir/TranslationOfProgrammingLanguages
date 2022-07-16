@@ -9,10 +9,9 @@ int main()
 	cout << "Hello World!" << '\n';
 	Lexer test("code.txt");
 	Token test2("type", "value");
-	cout << test2.getType() << '\n';
 	test.retrieveFile();
 	test.tokenize();
-	test.addToken("Malupet", "Ako");
+	//test.addToken("Malupet", "Ako");
 	test.displayTokens();
 	//test.displayCode();
 

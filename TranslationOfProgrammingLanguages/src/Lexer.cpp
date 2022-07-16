@@ -9,7 +9,6 @@ using namespace std;
 //***************************
 Lexer::Lexer(string fileName)
 {
-    code = "\\t;";
     isWithinComment = false;
     isEndOfLine = false;
     isBlockComment = false;
@@ -36,7 +35,6 @@ void Lexer::retrieveFile()
 
     while (getline(codeFile, fileLine)) {
         code += fileLine + '\n';
-        //code += fileLine + '\n';
     }
 
 
@@ -108,11 +106,16 @@ bool Lexer::isComment(string givenToken)
 {
     for (int counter = 0; counter < givenToken.length(); ++counter) 
     {
-        if (isWithinComment && isEndOfLine && !isBlockComment)
+        if (isWithinComment && isEndOfLine && !isBlockComment) {
+            isWithinComment = false;
+            isEndOfLine = false;
             return true;
+        }
 
-        if (isBlockComment && givenToken[counter] == '*' && givenToken[counter + 1] == '/')
+        if (isBlockComment && givenToken[counter] == '*' && givenToken[counter + 1] == '/') {
+            isBlockComment = false;
             return true;
+        }
 
         if (givenToken[counter] == '/' && givenToken[counter + 1] == '/')
             isWithinComment = true;
@@ -123,7 +126,7 @@ bool Lexer::isComment(string givenToken)
             isBlockComment = true;
         }
         
-        if (givenToken[counter] == ';')
+        if (givenToken[counter + 1] == ';')
             isEndOfLine = true;
     }
 
