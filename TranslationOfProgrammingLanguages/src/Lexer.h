@@ -27,6 +27,7 @@ class Lexer
     //Methods
     void retrieveFile();
     void displayCode();
+    void tokenize();
     bool isKeyword(string givenToken);
     bool isVariable(string givenToken);
     bool isComment(string givenToken);
@@ -36,6 +37,8 @@ class Lexer
     bool isNewLine(string givenToken);
     void fillOperators();
     void fillKeywords();
+    void addToken(string givenType, string givenValue);
+    void displayTokens();
 
 
     //Getter and Setter

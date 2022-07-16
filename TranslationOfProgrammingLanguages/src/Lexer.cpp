@@ -15,6 +15,7 @@ Lexer::Lexer(string fileName)
     this->fileName = fileName;
     fillOperators();
     fillKeywords();
+    code = "//t;";
 }
 
 //***************************
@@ -51,8 +52,34 @@ void Lexer::displayCode()
     cout << code << '\n';
 }
 
+
+void Lexer::tokenize()
+{
+    int codeLength = code.length();
+    int counter = 0;
+    string substring = "";
+
+    while (counter <= codeLength)
+    {
+        string type;
+
+        if (isComment(substring))
+        {
+            addToken("COMMENT", substring);
+            ++counter;
+            continue;
+        }
+        else {
+            substring += code[counter];
+            ++counter;
+        }
+
+        
+    }
+
 vector<string> Lexer::getLineCodes(){
     return LineCodes;
+
 }
 
 bool Lexer::isKeyword(string givenToken)
@@ -104,7 +131,7 @@ bool Lexer::isComment(string givenToken)
             isBlockComment = true;
         }
         
-        if (givenToken[counter] == ';')
+        if (givenToken[counter + 1] == ';')
             isEndOfLine = true;
     }
 
@@ -163,3 +190,16 @@ void Lexer::fillKeywords()
     keywords.push_back("output");
 }
 
+void Lexer::addToken(string givenType, string givenValue)
+{
+    tokens.push_back(Token(givenType, givenValue));
+}
+
+void Lexer::displayTokens()
+{
+    for (Token token : tokens)
+    {
+        cout << "Type: " << token.getType() << '\n';
+        cout << "Value: " << token.getValue() << '\n';
+    }
+}
