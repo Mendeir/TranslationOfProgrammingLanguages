@@ -53,7 +53,7 @@ void Lexer::tokenize()
     int counter = 0;
     string substring = "";
 
-    while (counter <= codeLength)
+    while (counter < codeLength)
     {
         string type;
 
