@@ -155,14 +155,6 @@ bool Lexer::isNumericLiteral(string givenToken)
     return true;
 }
 
-bool Lexer::isTerminator(string givenToken){
-    const string TERMNINATOR = ";";
-
-    if(givenToken == TERMNINATOR)
-        return true;
-    
-    return false;
-}
 void Lexer::fillOperators()
 {
     operators.push_back("+");
@@ -172,6 +164,7 @@ void Lexer::fillOperators()
     operators.push_back("=");
     operators.push_back("(");
     operators.push_back(")");
+    operators.push_back(";");
 }
 
 void Lexer::fillKeywords()
