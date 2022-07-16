@@ -35,8 +35,13 @@ void Lexer::retrieveFile()
     string fileLine = "";
 
     while (getline(codeFile, fileLine)) {
-        code += fileLine + '\n';
+        
+        if(fileLine != " " && fileLine != "" && fileLine != "\n"){
+            code += fileLine;
+            LineCodes.push_back(code);
+        }
         //code += fileLine + '\n';
+        code = "";
     }
 
 
@@ -46,6 +51,7 @@ void Lexer::displayCode()
 {
     cout << code << '\n';
 }
+
 
 void Lexer::tokenize()
 {
@@ -70,6 +76,10 @@ void Lexer::tokenize()
 
         
     }
+
+vector<string> Lexer::getLineCodes(){
+    return LineCodes;
+
 }
 
 bool Lexer::isKeyword(string givenToken)
@@ -146,6 +156,22 @@ bool Lexer::isNumericLiteral(string givenToken)
     return true;
 }
 
+bool Lexer::isTerminator(string givenToken){
+    const string TERMNINATOR = ";";
+
+    if(givenToken == TERMNINATOR)
+        return true;
+    
+    return false;
+}
+
+bool Lexer::isNewLine(string givenToken){
+    const string NEWLINE = "\\n";
+    if(givenToken == NEWLINE)
+        return true;
+
+    return false;
+}
 void Lexer::fillOperators()
 {
     operators.push_back("+");
