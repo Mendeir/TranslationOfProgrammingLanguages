@@ -48,9 +48,6 @@ vector<Token> makeTokens(){
                 
             } 
         }
-        if(subString != ""){
-            splitStrings.push_back(subString);
-        }
         splitStrings.push_back("\\n");
     }
     
