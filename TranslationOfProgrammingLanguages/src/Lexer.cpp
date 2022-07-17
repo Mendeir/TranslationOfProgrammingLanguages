@@ -51,6 +51,8 @@ void Lexer::displayCode()
 
 void Lexer::tokenize()
 {
+    int currentLine = 1;
+    int currentColumn = 1;
     int codeLength = code.length();
     int counter = 0;
     string subString = "";
@@ -59,8 +61,12 @@ void Lexer::tokenize()
     {
         string type;
         
-        if (code[counter] == ';') 
+        if (code[counter] == ';')
+        {
             isEndOfLine = true;
+            currentLine += 1;
+            currentColumn = 0;
+        }
         else
             isEndOfLine = false;
 
@@ -82,8 +88,9 @@ void Lexer::tokenize()
 
         if (isComment(subString))
         {
-            addToken("COMMENT", subString);
+            addToken("COMMENT", subString, currentLine, currentColumn);
             subString = "";
+            ++currentColumn;
             ++counter;
             continue;
         }
@@ -91,22 +98,25 @@ void Lexer::tokenize()
         if (isWithinComment) 
         {
             //subString += code[counter];
+            ++currentColumn;
             ++counter;
             continue;
         }
 
         if (isKeyword(subString))
         {
-            addToken("KEYWORD", subString);
+            addToken("KEYWORD", subString, currentLine, currentColumn);
             subString = "";
+            ++currentColumn;
             ++counter;
             continue;
         }
 
         if (isVariable(subString))
         {
-            addToken("VARIABLE", subString);
+            addToken("VARIABLE", subString, currentLine, currentColumn);
             subString = "";
+            ++currentColumn;
             ++counter;
             continue;
         }
@@ -114,35 +124,36 @@ void Lexer::tokenize()
         if (isOperator(subString))
         {
             if (s == "=")
-                addToken("ASSIGN_OPERATOR", s);
+                addToken("ASSIGN_OPERATOR", s, currentLine, currentColumn);
             else
-                addToken("ARITH_OPERATOR", s);
+                addToken("ARITH_OPERATOR", s, currentLine, currentColumn);
 
             subString = "";
+            ++currentColumn;
             ++counter;
             continue;
         }
 
         if (isNumericLiteral(subString))
         {
-            addToken("LITERAL", subString);
+            addToken("LITERAL", subString, currentLine, currentColumn);
             subString = "";
 
             if (isOperator(s))
             {
                 if (s == "=")
-                    addToken("ASSIGN_OPERATOR", s);
+                    addToken("ASSIGN_OPERATOR", s, currentLine, currentColumn);
                 else
-                    addToken("ARITH_OPERATOR", s);
+                    addToken("ARITH_OPERATOR", s, currentLine, currentColumn);
 
                 s = "";
             }
-
+            ++currentColumn;
             ++counter;
             continue;
         }
         
-        
+        ++currentColumn;
         ++counter;
 
 
@@ -267,9 +278,9 @@ void Lexer::fillKeywords()
     keywords.push_back("output");
 }
 
-void Lexer::addToken(string givenType, string givenValue)
+void Lexer::addToken(string givenType, string givenValue, int lineNumber, int columnNumber)
 {
-    tokens.push_back(Token(givenType, givenValue));
+    tokens.push_back(Token(givenType, givenValue, lineNumber, columnNumber));
 }
 
 void Lexer::displayTokens()
@@ -278,6 +289,8 @@ void Lexer::displayTokens()
     {
         cout << "Type: " << token.getType() << '\n';
         cout << "Value: " << token.getValue() << '\n';
+        cout << "Line No: " << token.getLineNumber() << '\n';
+        cout << "Column No: " << token.getColumnNumber() << '\n';
         cout << '\n';
     }
 }
