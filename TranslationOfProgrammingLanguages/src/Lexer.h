@@ -15,6 +15,8 @@ class Lexer
     bool isWithinComment;
     bool isEndOfLine;
     bool isBlockComment;
+    bool isEndOfWord;
+    bool isWithinLiteral;
     vector <string> keywords;
     vector <string> operators;
     vector <Token> tokens;

@@ -11,7 +11,9 @@ Lexer::Lexer(string fileName)
 {
     isWithinComment = false;
     isEndOfLine = false;
+    isEndOfWord = false;
     isBlockComment = false;
+    isWithinLiteral = false;
     this->fileName = fileName;
     fillOperators();
     fillKeywords();
@@ -63,12 +65,19 @@ void Lexer::tokenize()
             isEndOfLine = false;
 
         if (code[counter] == ' ')
+            isEndOfWord = true;
+        else
+            isEndOfWord = false;
+
+        string s;
+        s += code[counter];
+
+        if (isOperator(s) && isWithinLiteral)
         {
-            ++counter;
-            continue;
+            isEndOfWord = true;
         }
 
-        if (!isEndOfLine)
+        if (!isEndOfLine && !isEndOfWord)
             subString += code[counter];
 
         if (isComment(subString))
@@ -102,6 +111,29 @@ void Lexer::tokenize()
             continue;
         }
         
+        if (isOperator(subString))
+        {
+            addToken("OPERATOR", subString);
+            subString = "";
+            ++counter;
+            continue;
+        }
+
+        if (isNumericLiteral(subString))
+        {
+            addToken("LITERAL", subString);
+            subString = "";
+
+            if (isOperator(s))
+            {
+                addToken("OPERATOR", s);
+                s = "";
+            }
+
+            ++counter;
+            continue;
+        }
+        
         
         ++counter;
 
@@ -125,8 +157,9 @@ bool Lexer::isVariable(string givenToken)
     if (givenToken == "")
         return false;
 
-    if (!(givenToken[givenToken.length() - 1] == ' ' || isEndOfLine))
+    if (!(givenToken[givenToken.length() - 1] == ' ' || isEndOfLine || isEndOfWord))
     {
+        isEndOfWord = false;
         isEndOfLine = false;
         return false;
     }
@@ -160,6 +193,7 @@ bool Lexer::isComment(string givenToken)
 
         if (isBlockComment && givenToken[counter] == '*' && givenToken[counter + 1] == '/') {
             isBlockComment = false;
+            isWithinComment = false;
             return true;
         }
 
@@ -190,10 +224,20 @@ bool Lexer::isOperator(string givenToken)
 
 bool Lexer::isNumericLiteral(string givenToken)
 {
+    if (givenToken >= "0" && givenToken <= "9")
+        isWithinLiteral = true;
+
+    if (!isEndOfLine && !isEndOfWord)
+        return false;
+
+    if (givenToken == " " || givenToken == "")
+        return false;
+
     for (int counter = 0; counter < givenToken.length(); ++counter)
         if (!(givenToken[counter] >= '0' && givenToken[counter] <= '9'))
             return false;
-   
+
+    isWithinLiteral = false;
     return true;
 }
 
@@ -202,7 +246,7 @@ void Lexer::fillOperators()
     operators.push_back("+");
     operators.push_back("-");
     operators.push_back("*");
-    operators.push_back("/");
+    //operators.push_back("/");
     operators.push_back("=");
     operators.push_back("(");
     operators.push_back(")");
