@@ -113,7 +113,11 @@ void Lexer::tokenize()
         
         if (isOperator(subString))
         {
-            addToken("OPERATOR", subString);
+            if (s == "=")
+                addToken("ASSIGN_OPERATOR", s);
+            else
+                addToken("ARITH_OPERATOR", s);
+
             subString = "";
             ++counter;
             continue;
@@ -126,7 +130,11 @@ void Lexer::tokenize()
 
             if (isOperator(s))
             {
-                addToken("OPERATOR", s);
+                if (s == "=")
+                    addToken("ASSIGN_OPERATOR", s);
+                else
+                    addToken("ARITH_OPERATOR", s);
+
                 s = "";
             }
 
