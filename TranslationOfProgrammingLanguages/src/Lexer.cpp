@@ -9,13 +9,15 @@ using namespace std;
 //***************************
 Lexer::Lexer(string fileName)
 {
-    code = "\\t;";
     isWithinComment = false;
     isEndOfLine = false;
+    isEndOfWord = false;
     isBlockComment = false;
+    isWithinLiteral = false;
     this->fileName = fileName;
     fillOperators();
     fillKeywords();
+
 }
 
 //***************************
@@ -35,8 +37,7 @@ void Lexer::retrieveFile()
     string fileLine = "";
 
     while (getline(codeFile, fileLine)) {
-        code += fileLine + '\n';
-        //code += fileLine + '\n';
+        code += fileLine + ' ';
     }
 
 
@@ -51,26 +52,116 @@ void Lexer::displayCode()
 
 void Lexer::tokenize()
 {
+    int currentLine = 1;
+    int currentColumn = 0;
     int codeLength = code.length();
     int counter = 0;
-    string substring = "";
+    string subString = "";
 
-    while (counter <= codeLength)
+    while (counter < codeLength)
     {
         string type;
+        
+        if (code[counter] == ';')
+            isEndOfLine = true;
+        else
+            isEndOfLine = false;
 
-        if (isComment(substring))
+        if (counter > 1)
         {
-            addToken("COMMENT", substring);
+            if (code[counter - 1] == ';')
+            {
+                currentLine += 1;
+                currentColumn = 0;
+            }
+        }
+
+        if (code[counter] == ' ')
+            isEndOfWord = true;
+        else
+            isEndOfWord = false;
+
+        string s;
+        s += code[counter];
+
+        if (isOperator(s) && isWithinLiteral)
+        {
+            isEndOfWord = true;
+        }
+
+        if (!isEndOfLine && !isEndOfWord)
+            subString += code[counter];
+
+        if (isComment(subString))
+        {
+            addToken("COMMENT", subString, currentLine, currentColumn);
+            subString = "";
+            ++currentColumn;
             ++counter;
             continue;
         }
-        else {
-            substring += code[counter];
+        
+        if (isWithinComment) 
+        {
+            //subString += code[counter];
+            ++currentColumn;
             ++counter;
+            continue;
         }
 
+        if (isKeyword(subString))
+        {
+            addToken("KEYWORD", subString, currentLine, currentColumn);
+            subString = "";
+            ++currentColumn;
+            ++counter;
+            continue;
+        }
 
+        if (isVariable(subString))
+        {
+            addToken("VARIABLE", subString, currentLine, currentColumn);
+            subString = "";
+            ++currentColumn;
+            ++counter;
+            continue;
+        }
+        
+        if (isOperator(subString))
+        {
+            if (s == "=")
+                addToken("ASSIGN_OPERATOR", s, currentLine, currentColumn);
+            else
+                addToken("ARITH_OPERATOR", s, currentLine, currentColumn);
+
+            subString = "";
+            ++currentColumn;
+            ++counter;
+            continue;
+        }
+
+        if (isNumericLiteral(subString))
+        {
+            addToken("LITERAL", subString, currentLine, currentColumn);
+            subString = "";
+
+            if (isOperator(s))
+            {
+                if (s == "=")
+                    addToken("ASSIGN_OPERATOR", s, currentLine, currentColumn);
+                else
+                    addToken("ARITH_OPERATOR", s, currentLine, currentColumn);
+
+                s = "";
+            }
+
+            ++currentColumn;
+            ++counter;
+            continue;
+        }
+        
+        ++currentColumn;
+        ++counter;
     }
 }
 
@@ -87,6 +178,16 @@ bool Lexer::isVariable(string givenToken)
 {
     int arrayValue = 0;
 
+    if (givenToken == "")
+        return false;
+
+    if (!(givenToken[givenToken.length() - 1] == ' ' || isEndOfLine || isEndOfWord))
+    {
+        isEndOfWord = false;
+        isEndOfLine = false;
+        return false;
+    }
+
     if (!((givenToken[arrayValue] >= 'a' && givenToken[arrayValue] <= 'z')
         || (givenToken[arrayValue] >= 'A' && givenToken[arrayValue] <= 'Z')
         || givenToken[arrayValue] == '_'))
@@ -97,7 +198,7 @@ bool Lexer::isVariable(string givenToken)
         if (!((givenToken[counter] >= 'a' && givenToken[counter] <= 'z')
             || (givenToken[counter] >= 'A' && givenToken[counter] <= 'Z')
             || (givenToken[counter] >= '0' && givenToken[counter] <= '9')
-            || givenToken[counter] == '_'))
+            || givenToken[counter] == '_' || givenToken[counter] == ';'))
             return false;
     }
 
@@ -108,11 +209,17 @@ bool Lexer::isComment(string givenToken)
 {
     for (int counter = 0; counter < givenToken.length(); ++counter) 
     {
-        if (isWithinComment && isEndOfLine && !isBlockComment)
+        if (isWithinComment && isEndOfLine && !isBlockComment) {
+            isWithinComment = false;
+            isEndOfLine = false;
             return true;
+        }
 
-        if (isBlockComment && givenToken[counter] == '*' && givenToken[counter + 1] == '/')
+        if (isBlockComment && givenToken[counter] == '*' && givenToken[counter + 1] == '/') {
+            isBlockComment = false;
+            isWithinComment = false;
             return true;
+        }
 
         if (givenToken[counter] == '/' && givenToken[counter + 1] == '/')
             isWithinComment = true;
@@ -123,7 +230,7 @@ bool Lexer::isComment(string givenToken)
             isBlockComment = true;
         }
         
-        if (givenToken[counter] == ';')
+        if (givenToken[counter + 1] == ';')
             isEndOfLine = true;
     }
 
@@ -141,10 +248,20 @@ bool Lexer::isOperator(string givenToken)
 
 bool Lexer::isNumericLiteral(string givenToken)
 {
+    if (givenToken >= "0" && givenToken <= "9")
+        isWithinLiteral = true;
+
+    if (!isEndOfLine && !isEndOfWord)
+        return false;
+
+    if (givenToken == " " || givenToken == "")
+        return false;
+
     for (int counter = 0; counter < givenToken.length(); ++counter)
         if (!(givenToken[counter] >= '0' && givenToken[counter] <= '9'))
             return false;
-   
+
+    isWithinLiteral = false;
     return true;
 }
 
@@ -153,7 +270,7 @@ void Lexer::fillOperators()
     operators.push_back("+");
     operators.push_back("-");
     operators.push_back("*");
-    operators.push_back("/");
+    //operators.push_back("/");
     operators.push_back("=");
     operators.push_back("(");
     operators.push_back(")");
@@ -166,9 +283,9 @@ void Lexer::fillKeywords()
     keywords.push_back("output");
 }
 
-void Lexer::addToken(string givenType, string givenValue)
+void Lexer::addToken(string givenType, string givenValue, int lineNumber, int columnNumber)
 {
-    tokens.push_back(Token(givenType, givenValue));
+    tokens.push_back(Token(givenType, givenValue, lineNumber, columnNumber));
 }
 
 void Lexer::displayTokens()
@@ -177,5 +294,14 @@ void Lexer::displayTokens()
     {
         cout << "Type: " << token.getType() << '\n';
         cout << "Value: " << token.getValue() << '\n';
+        cout << "Line No: " << token.getLineNumber() << '\n';
+        cout << "Column No: " << token.getColumnNumber() << '\n';
+        cout << '\n';
     }
 }
+
+vector <Token> Lexer::getTokens()
+{
+    return tokens;
+}
+

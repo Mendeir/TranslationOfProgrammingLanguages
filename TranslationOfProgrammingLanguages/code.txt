@@ -1,2 +1,7 @@
-input;
-output;
+/*This is;
+a block;
+comment */;
+//This is a comment;
+var num = (5+10) * (10+8);
+input num;
+output num;

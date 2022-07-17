@@ -139,15 +139,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Compiler.cpp" />
     <ClCompile Include="src\Parser.cpp" />
     <ClCompile Include="src\Lexer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Token.cpp" />
+    <ClCompile Include="src\TypeCheck.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Compiler.h" />
     <ClInclude Include="src\Parser.h" />
     <ClInclude Include="src\Lexer.h" />
     <ClInclude Include="src\Token.h" />
+    <ClInclude Include="src\TypeCheck.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="code.txt" />
