@@ -10,6 +10,7 @@ int main()
 	Lexer test("code.txt");
 	Token test2("type", "value");
 	test.retrieveFile();
+	test.displayCode();
 	test.tokenize();
 	//test.addToken("Malupet", "Ako");
 	test.displayTokens();

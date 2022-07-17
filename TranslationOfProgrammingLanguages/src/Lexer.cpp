@@ -34,7 +34,7 @@ void Lexer::retrieveFile()
     string fileLine = "";
 
     while (getline(codeFile, fileLine)) {
-        code += fileLine + '\n';
+        code += fileLine + ' ';
     }
 
 
@@ -56,6 +56,14 @@ void Lexer::tokenize()
     while (counter < codeLength)
     {
         string type;
+        
+        if (code[counter] == ' ')
+        {
+            ++counter;
+            continue;
+        }
+
+        subString += code[counter];
 
         if (isComment(subString))
         {
@@ -67,7 +75,7 @@ void Lexer::tokenize()
         
         if (isWithinComment) 
         {
-            subString += code[counter];
+            //subString += code[counter];
             ++counter;
             continue;
         }
@@ -79,8 +87,16 @@ void Lexer::tokenize()
             ++counter;
             continue;
         }
+
+        if (isVariable(subString))
+        {
+            addToken("VARIABLE", subString);
+            subString = "";
+            ++counter;
+            continue;
+        }
         
-        subString += code[counter];
+        
         ++counter;
 
 
@@ -100,6 +116,12 @@ bool Lexer::isVariable(string givenToken)
 {
     int arrayValue = 0;
 
+    if (givenToken == "")
+        return false;
+
+    if (!(givenToken[givenToken.length() - 1] == ' ' || givenToken[givenToken.length() - 1] == ';'))
+        return false;
+
     if (!((givenToken[arrayValue] >= 'a' && givenToken[arrayValue] <= 'z')
         || (givenToken[arrayValue] >= 'A' && givenToken[arrayValue] <= 'Z')
         || givenToken[arrayValue] == '_'))
@@ -110,7 +132,7 @@ bool Lexer::isVariable(string givenToken)
         if (!((givenToken[counter] >= 'a' && givenToken[counter] <= 'z')
             || (givenToken[counter] >= 'A' && givenToken[counter] <= 'Z')
             || (givenToken[counter] >= '0' && givenToken[counter] <= '9')
-            || givenToken[counter] == '_'))
+            || givenToken[counter] == '_' || givenToken[counter] == ';'))
             return false;
     }
 
