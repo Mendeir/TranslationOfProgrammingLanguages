@@ -24,7 +24,7 @@
     <ClCompile Include="src\Token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Parser.cpp">
+    <ClCompile Include="src\TypeCheck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,6 +35,7 @@
     <ClInclude Include="src\Token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\TypeCheck.h">
     <ClInclude Include="src\Parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
