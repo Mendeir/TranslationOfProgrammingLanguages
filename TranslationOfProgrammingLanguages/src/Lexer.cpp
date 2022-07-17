@@ -230,5 +230,6 @@ void Lexer::displayTokens()
     {
         cout << "Type: " << token.getType() << '\n';
         cout << "Value: " << token.getValue() << '\n';
+        cout << '\n';
     }
 }
