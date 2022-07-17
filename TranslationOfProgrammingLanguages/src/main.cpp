@@ -8,7 +8,7 @@ using namespace std;
 
 int main() 
 {
-	cout << "Hello World!" << '\n';
+	//cout << "Hello World!" << '\n';
 	Lexer test("code.txt");
 	Token test2("type", "value");
 	cout << test2.getType() << '\n';
@@ -16,10 +16,13 @@ int main()
 	test.tokenize();
 	test.addToken("KEYWORD", "var");
 	test.addToken("VARIABLE", "num");
+	test.addToken("VARIABLE", "e");
+	test.addToken("VARIABLE", "a");
+	
 	test.displayTokens();
-
+	
 	TypeCheck type;
-	type.checkTokens();
+	type.checkTokens(test.getTokens());
 	cout << type.getResult();
 
 	//test.displayCode();
@@ -27,7 +30,7 @@ int main()
 	//cout << test.isComment("test") << '\n';
 	//cout << test.isComment("test ") << '\n';
 
-
+	/*
 	vector <Token> code;
 	//var num = 0;
 	Token token01("KEYWORD", "var");
@@ -42,6 +45,6 @@ int main()
 	code.push_back(token04);
 	code.push_back(token05);
 	Parser parser01(code);
-
+	*/
 	return 0;
 }
