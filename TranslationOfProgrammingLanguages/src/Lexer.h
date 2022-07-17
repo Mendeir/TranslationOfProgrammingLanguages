@@ -39,7 +39,6 @@ class Lexer
     void fillOperators();
     void fillKeywords();
 
-
     //Getter and Setter
     vector <Token> getTokens();
 };
