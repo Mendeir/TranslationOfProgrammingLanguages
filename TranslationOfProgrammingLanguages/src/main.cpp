@@ -1,5 +1,6 @@
 #include "Lexer.h"
 #include "Token.h"
+#include "TypeCheck.h"
 #include <iostream>
 
 using namespace std;
@@ -12,12 +13,19 @@ int main()
 	cout << test2.getType() << '\n';
 	test.retrieveFile();
 	test.tokenize();
-	test.addToken("Malupet", "Ako");
+	test.addToken("KEYWORD", "var");
+	test.addToken("VARIABLE", "num");
 	test.displayTokens();
+
+	TypeCheck type;
+	type.checkTokens();
+	cout << type.getResult();
+
 	//test.displayCode();
 
 	//cout << test.isComment("test") << '\n';
 	//cout << test.isComment("test ") << '\n';
+
 
 	return 0;
 }

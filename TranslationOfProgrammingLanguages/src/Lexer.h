@@ -39,7 +39,7 @@ class Lexer
 
 
     //Getter and Setter
-
+    vector <Token> getTokens();
 };
 
 #endif 
