@@ -57,13 +57,23 @@ void Lexer::tokenize()
     {
         string type;
         
+        if (code[counter] == ';') 
+        {
+            isEndOfLine = true;
+        }
+        else
+        {
+            isEndOfLine = false;
+        }
+
         if (code[counter] == ' ')
         {
             ++counter;
             continue;
         }
 
-        subString += code[counter];
+        if (!isEndOfLine)
+            subString += code[counter];
 
         if (isComment(subString))
         {
@@ -119,8 +129,11 @@ bool Lexer::isVariable(string givenToken)
     if (givenToken == "")
         return false;
 
-    if (!(givenToken[givenToken.length() - 1] == ' ' || givenToken[givenToken.length() - 1] == ';'))
+    if (!(givenToken[givenToken.length() - 1] == ' ' || isEndOfLine))
+    {
+        isEndOfLine = false;
         return false;
+    }
 
     if (!((givenToken[arrayValue] >= 'a' && givenToken[arrayValue] <= 'z')
         || (givenToken[arrayValue] >= 'A' && givenToken[arrayValue] <= 'Z')

@@ -13,6 +13,7 @@ int main()
 	test.displayCode();
 	test.tokenize();
 	//test.addToken("Malupet", "Ako");
+	cout << '\n';
 	test.displayTokens();
 	//test.displayCode();
 
