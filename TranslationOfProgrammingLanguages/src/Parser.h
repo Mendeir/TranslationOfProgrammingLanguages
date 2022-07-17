@@ -13,24 +13,22 @@ using namespace std;
 class Parser
 {
 private:
-    string fileName;
-    int index;
-    vector <Token> code;
-    map<string, int> variables;
+    int index; //index of current token parsed
+    vector <Token> code; //ordered container for the program tokens
+    map<string, int> variables; //<key, value>
 
 public:
     //Constructor and Destructor
-    Parser(vector <Token> tokens);
+    Parser(vector <Token> tokens); //Parser constructor
 
     //Methods
-    void checkCurrent();
-    string nextType(int);
-    void match();
-    void nextToken();
-    void breakParse();
-    void syntaxAnalyzer();
-    int solvExpr(vector <Token> expression);
-    void endCode();
+    string nextType(int); //returns
+    void nextToken(); //advances token parsing
+    void breakParse(); //error triggered program exit
+    void syntaxAnalyzer(); //body of parser; triggers beginning of parsing
+    int solvExpr(vector <Token> expression); //simplification of expressions after the assignment operator
+    void endCode(); //end of program code
+    void output(Token token); //output to console
 
 };
 #endif
