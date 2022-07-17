@@ -22,7 +22,7 @@ void TypeCheck::checkTokens(vector <Token> tokens)
 			variables.push_back(tokens.at(i + 1).getValue());
 		}
 	}
-	cout << variables.size();
+
 	//Check if variables are all declared
 	for (int i = 0; i < tokens.size(); i++)
 	{
@@ -49,7 +49,9 @@ void TypeCheck::checkTokens(vector <Token> tokens)
 			{
 				if (key != tokens.at(i).getValue() && tokens.at(i).getValue() != "var" && tokens.at(i).getValue() != "input" && tokens.at(i).getValue() != "output")
 				{
-					this->result += "\nError " + tokens.at(i).getValue() + " is not declared";
+					string line = to_string(tokens.at(i).getLineNumber());
+					string col = to_string(tokens.at(i).getColumnNumber());
+					this->result += "\nError " + tokens.at(i).getValue() + " is not declared at line " + line + " column " + col;
 				}
 			}
 		}
@@ -71,7 +73,9 @@ void TypeCheck::checkTokens(vector <Token> tokens)
 						if (!(tokens.at(i + 2).getValue()[counter] >= '0' && tokens.at(i + 2).getValue()[counter] <= '9'))
 							temp = false;
 					if (!temp) {
-						this->result += "\nError " + tokens.at(i).getValue() + " value is not an integer";
+						string line = to_string(tokens.at(i).getLineNumber());
+						string col = to_string(tokens.at(i).getColumnNumber());
+						this->result += "\nError " + tokens.at(i).getValue() + " value is not an integer at line " + line + " column " + col;
 					}
 				}
 			}
