@@ -52,7 +52,7 @@ void Lexer::displayCode()
 void Lexer::tokenize()
 {
     int currentLine = 1;
-    int currentColumn = 1;
+    int currentColumn = 0;
     int codeLength = code.length();
     int counter = 0;
     string subString = "";
@@ -62,13 +62,18 @@ void Lexer::tokenize()
         string type;
         
         if (code[counter] == ';')
-        {
             isEndOfLine = true;
-            currentLine += 1;
-            currentColumn = 0;
-        }
         else
             isEndOfLine = false;
+
+        if (counter > 1)
+        {
+            if (code[counter - 1] == ';')
+            {
+                currentLine += 1;
+                currentColumn = 0;
+            }
+        }
 
         if (code[counter] == ' ')
             isEndOfWord = true;
@@ -148,6 +153,7 @@ void Lexer::tokenize()
 
                 s = "";
             }
+
             ++currentColumn;
             ++counter;
             continue;
@@ -155,8 +161,6 @@ void Lexer::tokenize()
         
         ++currentColumn;
         ++counter;
-
-
     }
 }
 

@@ -16,8 +16,6 @@ int main()
 	test.tokenize();
 	//test.addToken("Malupet", "Ako");
 	cout << '\n';
-	test.addToken("KEYWORD", "var");
-	test.addToken("VARIABLE", "num");
 	test.displayTokens();
 
 	TypeCheck type;
