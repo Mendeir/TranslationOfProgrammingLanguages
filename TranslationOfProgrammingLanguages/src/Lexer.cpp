@@ -17,6 +17,7 @@ Lexer::Lexer(string fileName)
     this->fileName = fileName;
     fillOperators();
     fillKeywords();
+
 }
 
 //***************************
@@ -303,3 +304,4 @@ vector <Token> Lexer::getTokens()
 {
     return tokens;
 }
+

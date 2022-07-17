@@ -15,7 +15,7 @@ class TypeCheck
 
 	public:
 		TypeCheck();
-		void checkTokens();
+		void checkTokens(vector <Token> tokens);
 		string getResult();
 		
 };

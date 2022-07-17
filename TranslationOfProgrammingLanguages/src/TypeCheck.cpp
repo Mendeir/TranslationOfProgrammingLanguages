@@ -1,6 +1,4 @@
 #include "TypeCheck.h"
-#include "Lexer.h"
-#include "Token.h"
 #include <iostream>
 
 using namespace std;
@@ -10,55 +8,72 @@ TypeCheck::TypeCheck()
 	this->result = "";
 }
 
-void TypeCheck::checkTokens()
+void TypeCheck::checkTokens(vector <Token> tokens)
 {
-	Lexer lexer("code.txt");
+	
 	vector <string> variables;
-	this->result = "There are no errors";
+	this->result = "";
+	
 	// Store variables that are defined
-	for (int i = 0; i < lexer.getTokens().size(); i++)
+	for (int i = 0; i < tokens.size(); i++)
 	{
-		if (lexer.getTokens().at(i).getValue() == "var")
+		if (tokens.at(i).getValue() == "var")
 		{
-			variables.push_back(lexer.getTokens().at(i + 1).getValue());		
+			variables.push_back(tokens.at(i + 1).getValue());
 		}
 	}
-
+	cout << variables.size();
 	//Check if variables are all declared
-	for (int i = 0; i < lexer.getTokens().size(); i++)
+	for (int i = 0; i < tokens.size(); i++)
 	{
-		if (lexer.isVariable(lexer.getTokens().at(i).getValue()))
+		int arrayValue = 0;
+		bool temp = true;
+
+		if (!((tokens.at(i).getValue()[arrayValue] >= 'a' && tokens.at(i).getValue()[arrayValue] <= 'z')
+			|| (tokens.at(i).getValue()[arrayValue] >= 'A' && tokens.at(i).getValue()[arrayValue] <= 'Z')
+			|| tokens.at(i).getValue()[arrayValue] == '_'))
+			temp = false;
+
+		for (int counter = 1; counter < tokens.at(i).getValue().length(); ++counter)
 		{
-			
-			for (int j = 0; j < variables.size(); j++)
+			if (!((tokens.at(i).getValue()[counter] >= 'a' && tokens.at(i).getValue()[counter] <= 'z')
+				|| (tokens.at(i).getValue()[counter] >= 'A' && tokens.at(i).getValue()[counter] <= 'Z')
+				|| (tokens.at(i).getValue()[counter] >= '0' && tokens.at(i).getValue()[counter] <= '9')
+				|| tokens.at(i).getValue()[counter] == '_'))
+				temp = false;
+		}
+
+		if (temp)
+		{
+			for(string key: variables)
 			{
-				if (lexer.getTokens().at(i).getValue() == variables.at(j))
+				if (key != tokens.at(i).getValue() && tokens.at(i).getValue() != "var" && tokens.at(i).getValue() != "input" && tokens.at(i).getValue() != "output")
 				{
-					result = "There are no errors";
-					
-				}
-				else
-				{
-					result += "\nError " + lexer.getTokens().at(i).getValue() + "is not declared";
+					this->result += "\nError " + tokens.at(i).getValue() + " is not declared";
 				}
 			}
 		}
-		
+
 	}
-
-
+	
+	
 	//Compare if the values of the variables is integer
-	for (int i = 0; i < lexer.getTokens().size(); i++) 
+	for (int i = 0; i < tokens.size(); i++)
 	{
-		for (int j = 0; j < variables.size(); j++)
+		for (string key : variables)
 		{
-			if (lexer.getTokens().at(j).getValue() == variables.at(j))
+			if (key == tokens.at(i).getValue())
 			{
-				if (lexer.getTokens().at(j + 1).getValue() == "=" && !isdigit(stoi(lexer.getTokens().at(j + 2).getValue())))
+				if (tokens.at(i + 1).getValue() == "=")
 				{
-					result += "\nError" + lexer.getTokens().at(j).getValue() + " value is not an integer";
+					bool temp = true;
+					for (int counter = 0; counter < tokens.at(i + 2).getValue().length(); ++counter)
+						if (!(tokens.at(i + 2).getValue()[counter] >= '0' && tokens.at(i + 2).getValue()[counter] <= '9'))
+							temp = false;
+					if (!temp) {
+						this->result += "\nError " + tokens.at(i).getValue() + " value is not an integer";
+					}
 				}
-				
 			}
 		}
 	}
