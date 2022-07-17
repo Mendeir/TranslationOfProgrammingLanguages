@@ -1,52 +1,14 @@
-#include "Lexer.h"
-#include "Token.h"
-#include "TypeCheck.h"
-#include "Parser.h"
-#include <iostream>
+#include <string>
+#include "Compiler.h"
 
 using namespace std;
 
 int main() 
 {
-	//cout << "Hello World!" << '\n';
-	Lexer test("code.txt");
-	Token test2("type", "value");
-	test.retrieveFile();
-	test.displayCode();
-	test.tokenize();
-	test.addToken("KEYWORD", "var");
-	test.addToken("VARIABLE", "num");
-	test.addToken("VARIABLE", "e");
-	test.addToken("VARIABLE", "a");
-	
-	//test.addToken("Malupet", "Ako");
-	cout << '\n';
-	test.displayTokens();
-	
-	TypeCheck type;
-	type.checkTokens(test.getTokens());
-	cout << type.getResult();
 
-	//test.displayCode();
+	string fileName = "code.txt";
+	Compiler compiler(fileName);
+	compiler.compileCode();
 
-	//cout << test.isComment("test") << '\n';
-	//cout << test.isComment("test ") << '\n';
-
-	/*
-	vector <Token> code;
-	//var num = 0;
-	Token token01("KEYWORD", "var");
-	Token token02("IDENTIFIER", "num");
-	Token token03("ASSIGN_OP", "=");
-	Token token04("INT", "230192");
-	Token token05("TERMINATOR", ";");
-
-	code.push_back(token01);
-	code.push_back(token02);
-	code.push_back(token03);
-	code.push_back(token04);
-	code.push_back(token05);
-	Parser parser01(code);
-	*/
 	return 0;
 }
