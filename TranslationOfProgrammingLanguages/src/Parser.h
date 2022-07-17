@@ -14,6 +14,7 @@ class Parser
 {
 private:
     string fileName;
+    int index;
     vector <Token> code;
     map<string, int> variables;
 
@@ -27,6 +28,9 @@ public:
     void match();
     void nextToken();
     void breakParse();
-    void syntaxAnalyzer(Token token, int index);
+    void syntaxAnalyzer();
+    int solvExpr(vector <Token> expression);
+    void endCode();
+
 };
 #endif

@@ -33,7 +33,7 @@ int main()
 	Token token01("KEYWORD", "var");
 	Token token02("IDENTIFIER", "num");
 	Token token03("ASSIGN_OP", "=");
-	Token token04("INT", "0");
+	Token token04("INT", "230192");
 	Token token05("TERMINATOR", ";");
 
 	code.push_back(token01);
