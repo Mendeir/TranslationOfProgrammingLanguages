@@ -10,6 +10,8 @@ class Token
 	private:
 	string type;
 	string value;
+	int lineNumber;
+	int columnNumber;
 
 	public:
 	Token(string type, string value);
