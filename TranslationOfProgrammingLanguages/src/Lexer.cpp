@@ -294,3 +294,8 @@ void Lexer::displayTokens()
         cout << '\n';
     }
 }
+
+vector <Token> Lexer::getTokens()
+{
+    return tokens;
+}
