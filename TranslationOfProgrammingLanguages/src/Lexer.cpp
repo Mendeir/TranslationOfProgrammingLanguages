@@ -58,13 +58,9 @@ void Lexer::tokenize()
         string type;
         
         if (code[counter] == ';') 
-        {
             isEndOfLine = true;
-        }
         else
-        {
             isEndOfLine = false;
-        }
 
         if (code[counter] == ' ')
         {
