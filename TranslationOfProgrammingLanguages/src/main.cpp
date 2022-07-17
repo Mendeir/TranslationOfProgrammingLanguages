@@ -11,9 +11,11 @@ int main()
 	cout << "Hello World!" << '\n';
 	Lexer test("code.txt");
 	Token test2("type", "value");
-	cout << test2.getType() << '\n';
 	test.retrieveFile();
+	test.displayCode();
 	test.tokenize();
+	//test.addToken("Malupet", "Ako");
+	cout << '\n';
 	test.addToken("KEYWORD", "var");
 	test.addToken("VARIABLE", "num");
 	test.displayTokens();

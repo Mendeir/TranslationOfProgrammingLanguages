@@ -15,6 +15,8 @@ class Lexer
     bool isWithinComment;
     bool isEndOfLine;
     bool isBlockComment;
+    bool isEndOfWord;
+    bool isWithinLiteral;
     vector <string> keywords;
     vector <string> operators;
     vector <Token> tokens;
@@ -32,7 +34,7 @@ class Lexer
     bool isOperator(string givenToken);
     bool isNumericLiteral(string givenToken);
     void tokenize();
-    void addToken(string givenType, string givenValue);
+    void addToken(string givenType, string givenValue, int lineNumber, int columnNumber);
     void displayTokens();
     void fillOperators();
     void fillKeywords();
